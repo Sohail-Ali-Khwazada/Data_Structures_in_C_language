@@ -41,33 +41,42 @@ void insert (struct treenode *pointertocurNode, struct treenode *element) {
 
     }
 }
-
-struct treenode* search(struct treenode *pointertocurNode, int element) {
+//RECURSIVE APPROACH
+struct treenode* search_recursive(struct treenode *pointertocurNode, int element) {
+    if (pointertocurNode == NULL) {
+        return NULL;
+    }
     if (element == pointertocurNode -> val) {
         return pointertocurNode;
-    }
-    if (element <= pointertocurNode -> val ) {
-        if (pointertocurNode -> left != NULL) {
-            search(pointertocurNode -> left, element);
-        } else {
-            return NULL;
-        }
+    } else if (element <= pointertocurNode -> val ) {
+            return search_recursive(pointertocurNode -> left, element);
     } else {
-        if (pointertocurNode -> right != NULL) {
-            search(pointertocurNode -> right, element);
-        } else {
-            return NULL;
+            return search_recursive(pointertocurNode -> right, element);
         }
-
-    }
 }
+
+
+//ITERATIVE APPROACH
+struct treenode* search_iterative(struct treenode *pointertocurNode, int element) {
+    while (pointertocurNode != NULL) {
+        if (element == pointertocurNode -> val) {
+            return pointertocurNode;
+        } else if (element <= pointertocurNode -> val ) {
+            pointertocurNode = pointertocurNode -> left;
+        } else {
+            pointertocurNode = pointertocurNode -> right;
+        }
+    }
+    return NULL;  
+}
+
 
 int main () {
     struct tree tre1, tre2;
     struct tree *pointertotree;
-    struct treenode *newNode;
+    struct treenode *newNode,*temp;
     tre1.root = tre2.root = NULL;
-    int treechoice,opchoice,searchval;
+    int treechoice,opchoice,searchval,searchchoice;
 
     while (1) {
         do {
@@ -110,7 +119,18 @@ int main () {
                 } 
                 printf("Enter a value that you want to search\n");
                 scanf("%d",&searchval);
-                if (search(pointertotree -> root, searchval) == NULL) {
+                do {
+                    printf("Choose:\n1.Recursive search\n2.Iteraive search\n");
+                    scanf("%d",&searchchoice);
+                } while (searchchoice != 1 && searchchoice != 2);
+
+                if (searchchoice == 1) {
+                    temp = search_recursive(pointertotree -> root, searchval);
+                } else {
+                    temp = search_iterative(pointertotree -> root, searchval);
+                }
+
+                if (temp == NULL) {
                     printf("Element is not present in the tree.\n");
                 } else {
                     printf("Element %d exists in the tree.\n",searchval);
