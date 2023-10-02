@@ -41,12 +41,33 @@ void insert (struct treenode *pointertocurNode, struct treenode *element) {
 
     }
 }
+
+struct treenode* search(struct treenode *pointertocurNode, int element) {
+    if (element == pointertocurNode -> val) {
+        return pointertocurNode;
+    }
+    if (element <= pointertocurNode -> val ) {
+        if (pointertocurNode -> left != NULL) {
+            search(pointertocurNode -> left, element);
+        } else {
+            return NULL;
+        }
+    } else {
+        if (pointertocurNode -> right != NULL) {
+            search(pointertocurNode -> right, element);
+        } else {
+            return NULL;
+        }
+
+    }
+}
+
 int main () {
     struct tree tre1, tre2;
     struct tree *pointertotree;
     struct treenode *newNode;
     tre1.root = tre2.root = NULL;
-    int treechoice,opchoice;
+    int treechoice,opchoice,searchval;
 
     while (1) {
         do {
@@ -83,7 +104,17 @@ int main () {
                     traverse(pointertotree -> root);
                 }
         break;
-        case 4:
+        case 4: if (pointertotree -> root == NULL) {
+                    printf("Thera are no elements in a tree hence cannot perform search operarion.\n");
+                    break;
+                } 
+                printf("Enter a value that you want to search\n");
+                scanf("%d",&searchval);
+                if (search(pointertotree -> root, searchval) == NULL) {
+                    printf("Element is not present in the tree.\n");
+                } else {
+                    printf("Element %d exists in the tree.\n",searchval);
+                }
         break;
         
         default:
