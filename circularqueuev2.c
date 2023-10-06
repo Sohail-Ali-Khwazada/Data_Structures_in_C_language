@@ -41,7 +41,7 @@ struct student dequeue (struct queue *pointertoqueue) {
 
 struct student *peek (struct queue *pointertoqueue,int choice) {
     if (choice == 1) {
-        return &(pointertoqueue -> studarray)[pointertoqueue -> front + 1];
+        return &(pointertoqueue -> studarray)[(pointertoqueue -> front + 1) % (pointertoqueue -> max + 1)];
     }
     return &(pointertoqueue -> studarray)[pointertoqueue -> rear];
 }

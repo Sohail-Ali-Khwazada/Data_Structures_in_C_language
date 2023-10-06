@@ -41,6 +41,14 @@ void insert (struct treenode *pointertocurNode, struct treenode *element) {
 
     }
 }
+
+// void delete (struct treenode *pointertocurnode, int element) {
+//     struct treenode *temp = search_iterative(pointertocurnode,element);
+//     if (temp -> left == NULL && temp -> right == NULL) {
+//         free(temp)
+//     }
+
+// }
 //RECURSIVE APPROACH
 struct treenode* search_recursive(struct treenode *pointertocurNode, int element) {
     if (pointertocurNode == NULL) {
@@ -105,7 +113,10 @@ int main () {
                     insert(pointertotree -> root, newNode);
                 }
         break;
-        case 2:
+        case 2: if (pointertotree -> root == NULL) {
+                    printf("There are no elements in a tree to delete\n");
+                    break;
+                } 
         break;
         case 3: if (pointertotree -> root == NULL) {
                     printf("There are no elements in a tree to traverse\n");
