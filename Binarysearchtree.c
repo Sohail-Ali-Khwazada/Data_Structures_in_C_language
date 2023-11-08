@@ -12,6 +12,14 @@ struct tree {
     struct treenode *root;
 };
 
+struct treenode* smallest(struct treenode* pointertocurcurNode) {
+    if (pointertocurcurNode == NULL || pointertocurcurNode -> left == NULL) {
+        return pointertocurcurNode;
+    } else {
+        return smallest(pointertocurcurNode -> left);
+    }
+}
+
 void traverse (struct treenode *pointertocurNode) {
     //inorder traversal
     if (pointertocurNode == NULL){
@@ -42,11 +50,30 @@ void insert (struct treenode *pointertocurNode, struct treenode *element) {
     }
 }
 
-// void delete (struct treenode *pointertocurnode, int element) {
-//     struct treenode *temp = search_iterative(pointertocurnode,element);
-//     if (temp -> left == NULL && temp -> right == NULL) {
-//         free(temp)
-//     }
+struct treenode* delete (struct treenode *pointertocurnode, int element) {
+        if (element > pointertocurnode -> val) {
+            pointertocurnode -> right = delete(pointertocurnode -> right, element);
+        } else if (element < pointertocurnode -> val) {
+            pointertocurnode -> left = delete(pointertocurnode -> left, element);
+        } else if (pointertocurnode -> val == element) {
+            if (pointertocurnode -> left == NULL) {
+                struct treenode *temp = pointertocurnode -> right;
+                free(pointertocurnode);
+                return temp;
+            } else if (pointertocurnode -> right == NULL) {
+                struct treenode *temp = pointertocurnode -> left;
+                free(pointertocurnode);
+                return temp;
+            } else {
+                struct treenode *temp = smallest(pointertocurnode -> right);
+                pointertocurnode -> val = temp -> val;
+                pointertocurnode -> right = delete(pointertocurnode -> right, temp -> val);
+            }
+        } else {
+            printf("The element you want to delete is not present in the tree\n");
+        }
+        return pointertocurnode;
+    }
 
 // }
 //RECURSIVE APPROACH
@@ -79,12 +106,13 @@ struct treenode* search_iterative(struct treenode *pointertocurNode, int element
 }
 
 
+
 int main () {
     struct tree tre1, tre2;
     struct tree *pointertotree;
     struct treenode *newNode,*temp;
     tre1.root = tre2.root = NULL;
-    int treechoice,opchoice,searchval,searchchoice;
+    int treechoice,opchoice,searchval,searchchoice,delelement;
 
     while (1) {
         do {
@@ -116,7 +144,10 @@ int main () {
         case 2: if (pointertotree -> root == NULL) {
                     printf("There are no elements in a tree to delete\n");
                     break;
-                } 
+                }
+                printf("Enter the element that you want to delete\n");
+                scanf("%d",&delelement);
+                pointertotree->root = delete(pointertotree ->  root,delelement);
         break;
         case 3: if (pointertotree -> root == NULL) {
                     printf("There are no elements in a tree to traverse\n");
