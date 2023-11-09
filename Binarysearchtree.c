@@ -55,7 +55,7 @@ struct treenode* delete (struct treenode *pointertocurnode, int element) {
             pointertocurnode -> right = delete(pointertocurnode -> right, element);
         } else if (element < pointertocurnode -> val) {
             pointertocurnode -> left = delete(pointertocurnode -> left, element);
-        } else if (pointertocurnode -> val == element) {
+        } else {
             if (pointertocurnode -> left == NULL) {
                 struct treenode *temp = pointertocurnode -> right;
                 free(pointertocurnode);
@@ -69,9 +69,7 @@ struct treenode* delete (struct treenode *pointertocurnode, int element) {
                 pointertocurnode -> val = temp -> val;
                 pointertocurnode -> right = delete(pointertocurnode -> right, temp -> val);
             }
-        } else {
-            printf("The element you want to delete is not present in the tree\n");
-        }
+        } 
         return pointertocurnode;
     }
 
@@ -147,7 +145,12 @@ int main () {
                 }
                 printf("Enter the element that you want to delete\n");
                 scanf("%d",&delelement);
-                pointertotree->root = delete(pointertotree ->  root,delelement);
+                if (search_iterative(pointertotree -> root,delelement) != NULL) {
+                    pointertotree->root = delete(pointertotree ->  root,delelement);
+                } else {
+                    printf("The element you want to delete is not present in the tree\n");
+                }
+               
         break;
         case 3: if (pointertotree -> root == NULL) {
                     printf("There are no elements in a tree to traverse\n");
